@@ -7,6 +7,7 @@ object Consts{
 
     // ViewType layoutları için sabit değişkenler tanımlandı
     const val VIEW_TYPE_CURRENT_DAY = 0
+    const val VIEW_TYPE_NEXT_DAYS = 1
 
 }
 

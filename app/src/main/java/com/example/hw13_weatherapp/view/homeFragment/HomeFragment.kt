@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.example.hw13_weatherapp.R
 import com.example.hw13_weatherapp.databinding.FragmentHomeBinding
 import com.example.hw13_weatherapp.model.api.WeatherApiService
@@ -17,33 +18,33 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding : FragmentHomeBinding
 
+    private val viewModel : HomeViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater)
 
-        val weatherApiService = WeatherApiService.create()
+        if (viewModel.weatherData.value == null) {
+            viewModel.getDataService()
+        }
 
-        weatherApiService.getWeatherResult().enqueue(object : Callback<WeatherResponse>{
-            override fun onResponse(
-                call: Call<WeatherResponse>,
-                response: Response<WeatherResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val adapter = WeatherDataAdapter(response.body()!!)
-                    binding.recyclerView.adapter = adapter
-                }
-            }
-
-            override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-        })
-
+        initObserve()
 
         return binding.root
     }
 
+    fun initObserve(){
+        viewModel.weatherData.observe(viewLifecycleOwner){
+            initRecyclerView(it)
+        }
+    }
+
+    private fun initRecyclerView(weatherResponse : WeatherResponse?) {
+
+        val adapter = WeatherDataAdapter(weatherResponse ?: throw IllegalAccessError("Gövde Boş Olamaz"))
+
+        binding.recyclerView.adapter = adapter
+    }
 }

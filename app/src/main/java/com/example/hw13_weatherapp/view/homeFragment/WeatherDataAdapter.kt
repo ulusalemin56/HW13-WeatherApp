@@ -13,7 +13,7 @@ import com.example.hw13_weatherapp.databinding.CurrentDayItemBinding
 import com.example.hw13_weatherapp.databinding.NextDaysItemBinding
 import com.example.hw13_weatherapp.model.data.WeatherResponse
 
-class WeatherDataAdapter(private val weatherResponse: WeatherResponse) :
+class WeatherDataAdapter(weatherResponse: WeatherResponse) :
     Adapter<WeatherDataAdapter.WeatherDataViewHolder>() {
 
     private val currentWeather = weatherResponse.currentWeather
@@ -33,10 +33,11 @@ class WeatherDataAdapter(private val weatherResponse: WeatherResponse) :
                 parent,
                 false
             )
-            else -> layoutInflater.inflate(
+            Consts.VIEW_TYPE_NEXT_DAYS -> layoutInflater.inflate(
                 R.layout.next_days_item, parent,
                 false
             )
+            else -> throw IllegalArgumentException()
         }
         return WeatherDataViewHolder(view)
     }
@@ -55,12 +56,11 @@ class WeatherDataAdapter(private val weatherResponse: WeatherResponse) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (position == 0) {
-            return 0
+        return if (position == 0) {
+            Consts.VIEW_TYPE_CURRENT_DAY
         } else
-            return position
+            Consts.VIEW_TYPE_NEXT_DAYS
     }
-
 
     inner class WeatherDataViewHolder(itemView: View) : ViewHolder(itemView) {
 
@@ -86,7 +86,7 @@ class WeatherDataAdapter(private val weatherResponse: WeatherResponse) :
                 val binding = NextDaysItemBinding.bind(itemView)
 
                 binding.apply {
-                    tvDate.text = time ?: "Merhaba"
+                    tvDate.text = time
                     tvMinTemp.text = minTemp.toString().addCelcius()
                     tvMaxTemp.text = maxTemp.toString().addCelcius()
                 }
