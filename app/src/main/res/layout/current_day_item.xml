@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_current_day"
@@ -71,11 +72,11 @@
 
             <!-- Rüzgar -->
             <TextView
-                android:id="@+id/tv_mean_temp"
+                android:id="@+id/tv_wind_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="10 km/hr"
+                android:text="10 m/hr"
                 android:textColor="#6200EE"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/iv_wind_speed_icon"
@@ -113,6 +114,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/card_view_title"
         android:layout_width="match_parent"
+
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="#3A5008"
