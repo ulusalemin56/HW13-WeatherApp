@@ -9,7 +9,7 @@ import retrofit2.http.GET
 
 interface WeatherApiService {
 
-    @GET("v1/forecast?latitude=52.52&longitude=13.41&current_weather=true&daily=weathercode,apparent_temperature_max,apparent_temperature_min&timezone=auto&temperature_unit=celsius&forecast_days=14")
+    @GET("v1/forecast?latitude=40.7750&longitude=29.9480&current_weather=true&daily=weathercode,apparent_temperature_max,apparent_temperature_min&timezone=auto&temperature_unit=celsius&forecast_days=14")
     fun getWeatherResult() : Call<WeatherResponse>
 
     companion object{

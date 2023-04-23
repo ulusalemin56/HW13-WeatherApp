@@ -9,7 +9,7 @@ data class Daily(
     @SerializedName("apparent_temperature_min")
     val apparentTemperatureMin: List<Double?>?,
     @SerializedName("time")
-    val time: List<String?>?,
+    val time: ArrayList<String?>?,
     @SerializedName("weathercode")
     val weathercode: List<Int?>?
 )

@@ -18,9 +18,10 @@ class WeatherDataAdapter(weatherResponse: WeatherResponse) :
 
     private val currentWeather = weatherResponse.currentWeather
     private val times = weatherResponse.daily?.time
-    private val weatherCodes = weatherResponse.daily?.weathercode
     private val maxTemps = weatherResponse.daily?.apparentTemperatureMax
     private val minTemps = weatherResponse.daily?.apparentTemperatureMin
+
+    private val icons = weatherResponse.icons
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -45,9 +46,9 @@ class WeatherDataAdapter(weatherResponse: WeatherResponse) :
     override fun onBindViewHolder(holder: WeatherDataAdapter.WeatherDataViewHolder, position: Int) {
         holder.bind(
             time = times?.get(position),
-            weatherCode = weatherCodes?.get(position),
             maxTemp = maxTemps?.get(position),
-            minTemp = minTemps?.get(position)
+            minTemp = minTemps?.get(position),
+            icon = icons[position]
         )
     }
 
@@ -64,22 +65,22 @@ class WeatherDataAdapter(weatherResponse: WeatherResponse) :
 
     inner class WeatherDataViewHolder(itemView: View) : ViewHolder(itemView) {
 
-
-
         fun bind(
             time: String?,
-            weatherCode: Int?,
             maxTemp: Double?,
-            minTemp: Double?
+            minTemp: Double?,
+            icon : Int
         ) {
 
             if (adapterPosition == Consts.VIEW_TYPE_CURRENT_DAY) {
                 val binding = CurrentDayItemBinding.bind(itemView)
 
                 binding.apply {
+                    tvTitle.text = time
                     tvTemperature.text = currentWeather?.temperature?.toString()?.addCelcius()
                     tvWindSpeed.text = currentWeather?.windspeed?.toString()?.addSpeedText()
                     tvWindDirection.text = currentWeather?.winddirection?.toString()
+                    ivWeatherIcon.setImageResource(icon)
                 }
 
             } else {
@@ -89,6 +90,7 @@ class WeatherDataAdapter(weatherResponse: WeatherResponse) :
                     tvDate.text = time
                     tvMinTemp.text = minTemp.toString().addCelcius()
                     tvMaxTemp.text = maxTemp.toString().addCelcius()
+                    ivWeatherIcon.setImageResource(icon)
                 }
 
             }

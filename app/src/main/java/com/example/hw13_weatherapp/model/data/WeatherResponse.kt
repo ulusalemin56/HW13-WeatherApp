@@ -23,5 +23,6 @@ data class WeatherResponse(
     @SerializedName("timezone_abbreviation")
     val timezoneAbbreviation: String?,
     @SerializedName("utc_offset_seconds")
-    val utcOffsetSeconds: Int?
+    val utcOffsetSeconds: Int?,
+    var icons : ArrayList<Int>,
 )
