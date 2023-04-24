@@ -32,7 +32,10 @@ class HomeViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     val weatherResponse = response.body()
 
+                    // Iconlar hava durumuna göre dinamikleştirildi
                     setIcons(weatherResponse)
+
+                    // Api dan gelen tarih daha düzenli bir tarih gösterimi ile değiştirildi.
                     setDates(weatherResponse?.daily)
 
                     _weatherData.value = weatherResponse

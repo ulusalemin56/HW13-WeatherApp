@@ -20,7 +20,6 @@ class WeatherDataAdapter(weatherResponse: WeatherResponse) :
     private val times = weatherResponse.daily?.time
     private val maxTemps = weatherResponse.daily?.apparentTemperatureMax
     private val minTemps = weatherResponse.daily?.apparentTemperatureMin
-
     private val icons = weatherResponse.icons
 
     override fun onCreateViewHolder(
@@ -94,7 +93,6 @@ class WeatherDataAdapter(weatherResponse: WeatherResponse) :
                 }
 
             }
-
 
         }
 
