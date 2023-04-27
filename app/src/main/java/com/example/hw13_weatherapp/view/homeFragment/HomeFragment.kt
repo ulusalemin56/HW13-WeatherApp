@@ -26,16 +26,16 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater)
 
-        if (viewModel.weatherData.value == null) {
+//        if (viewModel.weatherData.value == null) {
             viewModel.getDataService()
-        }
+//        }
 
         initObserve()
 
         return binding.root
     }
 
-    fun initObserve(){
+    private fun initObserve(){
         viewModel.weatherData.observe(viewLifecycleOwner){
             initRecyclerView(it)
         }

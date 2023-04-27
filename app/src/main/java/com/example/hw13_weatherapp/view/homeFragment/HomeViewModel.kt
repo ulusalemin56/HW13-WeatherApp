@@ -2,6 +2,7 @@ package com.example.hw13_weatherapp.view.homeFragment
 
 import android.icu.text.DateFormat
 import android.icu.util.Calendar
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,6 +17,7 @@ import java.util.Date
 
 class HomeViewModel : ViewModel() {
 
+    // TODO ("Bu servisin Singleton olup olmadığını kendin dene")
     private val weatherApiService = WeatherApiService.create()
 
     private val _weatherData = MutableLiveData<WeatherResponse?>()
@@ -31,6 +33,7 @@ class HomeViewModel : ViewModel() {
             ) {
                 if (response.isSuccessful) {
                     val weatherResponse = response.body()
+                    Log.e("CACHE", response.raw().cacheResponse.toString())
 
                     // Iconlar hava durumuna göre dinamikleştirildi
                     setIcons(weatherResponse)

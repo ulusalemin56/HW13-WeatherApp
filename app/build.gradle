@@ -56,13 +56,16 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
-    implementation 'androidx.fragment:fragment-ktx:1.5.6'
+    implementation 'androidx.fragment:fragment-ktx:1.5.7'
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
-    // Gson
+    // Gson Convertor
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // HttpLoggingInterceptor eklenip isteklerin log yapılması sağlandı.
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
 
     //Glide resimleri imageview e aktarmamızı sağlar
     implementation 'com.github.bumptech.glide:glide:4.15.1'
