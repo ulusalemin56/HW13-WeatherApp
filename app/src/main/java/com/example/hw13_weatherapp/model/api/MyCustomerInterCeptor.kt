@@ -8,7 +8,7 @@ class MyCustomerInterCeptor : Interceptor {
         val myRequest = chain.request()
 
         myRequest.newBuilder()
-            .addHeader("Cache-Control", "public, max-age" + 90)
+            .header("Cache-Control", "public, max-stale=" + 90)
             .build()
 
         return chain.proceed(myRequest)

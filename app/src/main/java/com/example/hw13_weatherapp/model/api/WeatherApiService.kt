@@ -1,5 +1,6 @@
 package com.example.hw13_weatherapp.model.api
 
+
 import android.os.Environment
 import com.example.hw13_weatherapp.constants.Consts
 import com.example.hw13_weatherapp.model.data.WeatherResponse
@@ -11,7 +12,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import java.util.concurrent.TimeUnit
 
 interface WeatherApiService {
 
@@ -28,12 +28,10 @@ interface WeatherApiService {
 
     companion object {
 
-
         fun create(): WeatherApiService {
             val httpLoggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-
             val cacheSize = (10 * 1024 * 1024).toLong()
-            val myCache = Cache(Environment.getDataDirectory(), cacheSize)
+            val myCache = Cache(Environment.getDownloadCacheDirectory(), cacheSize)
 
             val okHttpClient = OkHttpClient.Builder()
                 .addNetworkInterceptor(httpLoggingInterceptor)

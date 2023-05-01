@@ -1,10 +1,12 @@
 package com.example.hw13_weatherapp.view.homeFragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.example.hw13_weatherapp.R
 import com.example.hw13_weatherapp.databinding.FragmentHomeBinding
@@ -20,15 +22,18 @@ class HomeFragment : Fragment() {
 
     private val viewModel : HomeViewModel by viewModels()
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater)
 
-//        if (viewModel.weatherData.value == null) {
+
+        if (viewModel.weatherData.value == null) {
             viewModel.getDataService()
-//        }
+        }
 
         initObserve()
 
