@@ -1,8 +1,9 @@
 package com.example.hw13_weatherapp.model.api
 
 
+import android.content.Context
 import android.os.Environment
-import com.example.hw13_weatherapp.constants.Consts
+import com.example.hw13_weatherapp.util.Consts
 import com.example.hw13_weatherapp.model.data.WeatherResponse
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -28,10 +29,10 @@ interface WeatherApiService {
 
     companion object {
 
-        fun create(): WeatherApiService {
+        fun create(context: Context): WeatherApiService {
             val httpLoggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             val cacheSize = (10 * 1024 * 1024).toLong()
-            val myCache = Cache(Environment.getDownloadCacheDirectory(), cacheSize)
+            val myCache = Cache(context.cacheDir, cacheSize)
 
             val okHttpClient = OkHttpClient.Builder()
                 .addNetworkInterceptor(httpLoggingInterceptor)

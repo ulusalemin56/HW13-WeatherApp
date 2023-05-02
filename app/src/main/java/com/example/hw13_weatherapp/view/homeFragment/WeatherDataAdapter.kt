@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.hw13_weatherapp.R
-import com.example.hw13_weatherapp.constants.Consts
-import com.example.hw13_weatherapp.constants.addCelcius
-import com.example.hw13_weatherapp.constants.addSpeedText
+import com.example.hw13_weatherapp.util.Consts
+import com.example.hw13_weatherapp.util.addCelcius
+import com.example.hw13_weatherapp.util.addSpeedText
 import com.example.hw13_weatherapp.databinding.CurrentDayItemBinding
 import com.example.hw13_weatherapp.databinding.NextDaysItemBinding
 import com.example.hw13_weatherapp.model.data.WeatherResponse

@@ -1,11 +1,15 @@
 package com.example.hw13_weatherapp.view.homeFragment
 
+import android.app.Application
 import android.icu.text.DateFormat
 import android.icu.util.Calendar
+import android.os.Handler
+import android.os.Looper
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.hw13_weatherapp.constants.Consts
+import com.example.hw13_weatherapp.util.Consts
+import com.example.hw13_weatherapp.data.local.WeatherDB
 import com.example.hw13_weatherapp.model.api.WeatherApiService
 import com.example.hw13_weatherapp.model.data.Daily
 import com.example.hw13_weatherapp.model.data.WeatherResponse
@@ -14,9 +18,11 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.Date
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(app: Application) : AndroidViewModel(app) {
 
-    private val weatherApiService = WeatherApiService.create()
+    private val weatherApiService = WeatherApiService.create(app.applicationContext)
+
+    private val weatherDb = WeatherDB.getInstance(app.applicationContext)
 
     private val _weatherData = MutableLiveData<WeatherResponse?>()
     val weatherData: LiveData<WeatherResponse?> = _weatherData
@@ -40,12 +46,23 @@ class HomeViewModel : ViewModel() {
                     setDates(weatherResponse?.daily)
 
                     _weatherData.value = weatherResponse
+
+                    Thread(Runnable {
+                        weatherDb.weatherDao().deleteAll()
+                        weatherResponse?.let { weatherResponse -> weatherDb.weatherDao().insertAll(weatherResponse) }
+                    }).start()
                 }
 
             }
 
             override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
-
+                Thread(Runnable {
+                    val weatherResponse = weatherDb.weatherDao().getAll()
+//                    _weatherData.postValue(weatherResponse)
+                 Handler(Looper.getMainLooper()).post(Runnable {
+                        _weatherData.value = weatherResponse
+                    })
+                }).start()
             }
         })
     }
@@ -81,8 +98,9 @@ class HomeViewModel : ViewModel() {
         val format = DateFormat.getDateInstance(DateFormat.MEDIUM)
         val formatTitle = DateFormat.getDateInstance(DateFormat.FULL)
 
-        val dates = daily?.time
-        for (a in 0 until dates?.size!!) {
+        val dates = daily?.time as ArrayList<String>
+
+        for (a in 0 until dates.size) {
             if (a == 0) {
                 val currentData = formatTitle.format(calendar.time)
                 dates[a] = currentData
