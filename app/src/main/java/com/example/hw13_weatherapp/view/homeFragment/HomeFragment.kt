@@ -31,9 +31,9 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater)
 
 
-        if (viewModel.weatherData.value == null) {
+//        if (viewModel.weatherData.value == null) {
             viewModel.getDataService()
-        }
+//        }
 
         initObserve()
 
@@ -48,7 +48,9 @@ class HomeFragment : Fragment() {
 
     private fun initRecyclerView(weatherResponse : WeatherResponse?) {
 
-        val adapter = WeatherDataAdapter(weatherResponse ?: throw IllegalAccessError("Gövde Boş Olamaz"))
+        val adapter = weatherResponse?.let { weatherRes ->
+            WeatherDataAdapter(weatherRes)
+        }
 
         binding.recyclerView.adapter = adapter
     }

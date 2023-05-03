@@ -6,6 +6,7 @@ import android.os.Environment
 import com.example.hw13_weatherapp.util.Consts
 import com.example.hw13_weatherapp.model.data.WeatherResponse
 import okhttp3.Cache
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -31,13 +32,19 @@ interface WeatherApiService {
 
         fun create(context: Context): WeatherApiService {
             val httpLoggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-            val cacheSize = (10 * 1024 * 1024).toLong()
+            val cacheSize = (5 * 1024 * 1024).toLong()
             val myCache = Cache(context.cacheDir, cacheSize)
 
             val okHttpClient = OkHttpClient.Builder()
                 .addNetworkInterceptor(httpLoggingInterceptor)
-                .addInterceptor(MyCustomerInterCeptor())
                 .cache(myCache)
+                .addInterceptor(Interceptor {chain ->
+                    val myRequest = chain.request()
+                    myRequest.newBuilder()
+                        .header("Cache-Control", "public, max-age=" + 90)
+                        .build()
+                    chain.proceed(myRequest)
+                })
                 .build()
 
             val retrofit = Retrofit.Builder()
