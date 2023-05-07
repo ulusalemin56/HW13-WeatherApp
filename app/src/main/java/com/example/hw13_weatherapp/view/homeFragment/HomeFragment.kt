@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.hw13_weatherapp.data.local.WeatherDB
 import com.example.hw13_weatherapp.databinding.FragmentHomeBinding
 import com.example.hw13_weatherapp.model.WeatherResponse
@@ -58,7 +58,11 @@ class HomeFragment : Fragment() {
     private fun initRecyclerView(weatherResponse : WeatherResponse?) {
 
         val adapter = weatherResponse?.let { weatherRes ->
-            WeatherDataAdapter(weatherRes)
+            WeatherDataAdapter(weatherRes) {position ->
+                findNavController().navigate(
+                   HomeFragmentDirections.actionHomeFragmentToDeatilFragment(weatherRes, position)
+                )
+            }
         }
 
         binding.recyclerView.adapter = adapter

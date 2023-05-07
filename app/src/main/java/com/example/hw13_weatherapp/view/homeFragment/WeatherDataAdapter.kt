@@ -13,8 +13,10 @@ import com.example.hw13_weatherapp.databinding.CurrentDayItemBinding
 import com.example.hw13_weatherapp.databinding.NextDaysItemBinding
 import com.example.hw13_weatherapp.model.WeatherResponse
 
-class WeatherDataAdapter(weatherResponse: WeatherResponse) :
-    Adapter<WeatherDataAdapter.WeatherDataViewHolder>() {
+class WeatherDataAdapter(
+    private val weatherResponse: WeatherResponse,
+    private val weatherItemClickListener : (Int) -> Unit
+) : Adapter<WeatherDataAdapter.WeatherDataViewHolder>() {
 
     private val currentWeather = weatherResponse.currentWeather
     private val times = weatherResponse.daily?.time
@@ -33,10 +35,12 @@ class WeatherDataAdapter(weatherResponse: WeatherResponse) :
                 parent,
                 false
             )
+
             Consts.VIEW_TYPE_NEXT_DAYS -> layoutInflater.inflate(
                 R.layout.next_days_item, parent,
                 false
             )
+
             else -> throw IllegalArgumentException()
         }
         return WeatherDataViewHolder(view)
@@ -68,7 +72,7 @@ class WeatherDataAdapter(weatherResponse: WeatherResponse) :
             time: String?,
             maxTemp: Double?,
             minTemp: Double?,
-            icon : Int
+            icon: Int
         ) {
 
             if (adapterPosition == Consts.VIEW_TYPE_CURRENT_DAY) {
@@ -90,6 +94,10 @@ class WeatherDataAdapter(weatherResponse: WeatherResponse) :
                     tvMinTemp.text = minTemp.toString().addCelcius()
                     tvMaxTemp.text = maxTemp.toString().addCelcius()
                     ivWeatherIcon.setImageResource(icon)
+
+                    cardViewNextDay.setOnClickListener {
+                        weatherItemClickListener(adapterPosition)
+                    }
                 }
 
             }

@@ -9,5 +9,21 @@
         android:id="@+id/homeFragment"
         android:name="com.example.hw13_weatherapp.view.homeFragment.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_deatilFragment"
+            app:destination="@id/deatilFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/deatilFragment"
+        android:name="com.example.hw13_weatherapp.view.detailFragment.DeatilFragment"
+        android:label="fragment_deatil"
+        tools:layout="@layout/fragment_deatil" >
+        <argument
+            android:name="weatherResponse"
+            app:argType="com.example.hw13_weatherapp.model.WeatherResponse" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+    </fragment>
 </navigation>
