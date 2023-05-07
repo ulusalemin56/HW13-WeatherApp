@@ -38,13 +38,7 @@ interface WeatherApiService {
             val okHttpClient = OkHttpClient.Builder()
                 .addNetworkInterceptor(httpLoggingInterceptor)
                 .cache(myCache)
-                .addInterceptor(Interceptor {chain ->
-                    val myRequest = chain.request()
-                    myRequest.newBuilder()
-                        .header("Cache-Control", "public, max-age=" + 90)
-                        .build()
-                    chain.proceed(myRequest)
-                })
+                .addInterceptor(MyCustomerInterCeptor())
                 .build()
 
             val retrofit = Retrofit.Builder()

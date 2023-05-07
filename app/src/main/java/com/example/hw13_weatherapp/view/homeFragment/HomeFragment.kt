@@ -22,20 +22,19 @@ class HomeFragment : Fragment() {
 
     private val viewModel : HomeViewModel by viewModels()
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater)
 
-
-//        if (viewModel.weatherData.value == null) {
+        if (viewModel.weatherData.value == null) {
             viewModel.getDataService()
-//        }
+        }
+
 
         initObserve()
+
 
         return binding.root
     }
