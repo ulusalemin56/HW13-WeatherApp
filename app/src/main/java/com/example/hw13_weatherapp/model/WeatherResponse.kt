@@ -1,4 +1,4 @@
-package com.example.hw13_weatherapp.model.data
+package com.example.hw13_weatherapp.model
 
 
 import androidx.room.Embedded

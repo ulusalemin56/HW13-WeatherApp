@@ -1,12 +1,10 @@
-package com.example.hw13_weatherapp.model.api
+package com.example.hw13_weatherapp.network
 
 
 import android.content.Context
-import android.os.Environment
 import com.example.hw13_weatherapp.util.Consts
-import com.example.hw13_weatherapp.model.data.WeatherResponse
+import com.example.hw13_weatherapp.model.WeatherResponse
 import okhttp3.Cache
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -30,26 +28,32 @@ interface WeatherApiService {
 
     companion object {
 
+        @Volatile
+        private var instance : WeatherApiService? = null
         fun create(context: Context): WeatherApiService {
+            return instance ?: synchronized(this) {
+                val retrofit = Retrofit.Builder()
+                    .baseUrl(Consts.BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(createOkHttpClient(context))
+                    .build().create(WeatherApiService::class.java)
+                instance = retrofit
+                retrofit
+            }
+        }
+
+        private fun createOkHttpClient(context: Context): OkHttpClient {
             val httpLoggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+
             val cacheSize = (5 * 1024 * 1024).toLong()
             val myCache = Cache(context.cacheDir, cacheSize)
 
-            val okHttpClient = OkHttpClient.Builder()
+            return OkHttpClient.Builder()
                 .addNetworkInterceptor(httpLoggingInterceptor)
                 .cache(myCache)
                 .addInterceptor(MyCustomerInterCeptor())
                 .build()
-
-            val retrofit = Retrofit.Builder()
-                .baseUrl(Consts.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
-                .build()
-
-            return retrofit.create(WeatherApiService::class.java)
         }
-
 
     }
 }

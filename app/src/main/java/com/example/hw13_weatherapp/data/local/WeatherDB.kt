@@ -5,9 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.hw13_weatherapp.model.data.CurrentWeather
-import com.example.hw13_weatherapp.model.data.Daily
-import com.example.hw13_weatherapp.model.data.WeatherResponse
+import com.example.hw13_weatherapp.model.CurrentWeather
+import com.example.hw13_weatherapp.model.Daily
+import com.example.hw13_weatherapp.model.WeatherResponse
 import com.example.hw13_weatherapp.util.DataBaseConverter
 
 @Database(
@@ -33,7 +33,6 @@ abstract class WeatherDB : RoomDatabase() {
                 instance = dataBase
                 dataBase
             }
-
 
         }
 
