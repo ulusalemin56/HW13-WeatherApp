@@ -17,7 +17,7 @@ import java.util.concurrent.Executors
 
 class WeatherAppRepository(
     private val weatherApiService: WeatherApiService,
-    private val weatherDB: WeatherDB,
+    weatherDB: WeatherDB,
     private val isInternetAvailable : Boolean
 ) {
 
@@ -39,7 +39,6 @@ class WeatherAppRepository(
 
         }
 
-
     }
 
     private fun fetchFromService(callBack: (WeatherResponse) -> Unit) {
@@ -52,19 +51,19 @@ class WeatherAppRepository(
 
                 if (response.isSuccessful) {
 
-                    val response = response.body()
+                    val responseBody = response.body()
 
-                    response?.let {response->
+                    responseBody?.let { weatherResponse->
 
                         // Iconlar hava durumuna göre dinamikleştirildi
-                        setIcons(response)
+                        setIcons(weatherResponse)
 
                         // Api dan gelen tarih daha düzenli bir tarih gösterimi ile değiştirildi.
-                        setDates(response.daily)
+                        setDates(weatherResponse.daily)
 
-                        callBack(response)
+                        callBack(weatherResponse)
 
-                        insertWeatherToDataBase(response)
+                        insertWeatherToDataBase(weatherResponse)
                     }
 
                 } else {

@@ -16,14 +16,17 @@
     </fragment>
     <fragment
         android:id="@+id/deatilFragment"
-        android:name="com.example.hw13_weatherapp.view.detailFragment.DeatilFragment"
+        android:name="com.example.hw13_weatherapp.view.detailFragment.DetailFragment"
         android:label="fragment_deatil"
         tools:layout="@layout/fragment_deatil" >
         <argument
-            android:name="weatherResponse"
-            app:argType="com.example.hw13_weatherapp.model.WeatherResponse" />
+            android:name="time"
+            app:argType="string" />
         <argument
-            android:name="position"
+            android:name="maxTemp"
+            app:argType="float" />
+        <argument
+            android:name="iconValue"
             app:argType="integer" />
     </fragment>
 </navigation>

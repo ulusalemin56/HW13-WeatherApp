@@ -26,25 +26,21 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater)
 
-
         val weatherApiService = WeatherApiService.create(requireContext())
         val weatherDB = WeatherDB.getInstance(requireContext())
         val hasInternet = NetworkUtil.isInternetAvailable(requireContext())
         val weatherAppRepository = WeatherAppRepository(weatherApiService, weatherDB, hasInternet)
 
         viewModel = ViewModelProvider(
-            this,
+            requireActivity(),
             HomeViewModelFactory(weatherAppRepository),
         )[HomeViewModel::class.java]
-
 
         if (viewModel.weatherData.value == null) {
             viewModel.fetchData()
         }
 
-
         initObserve()
-
 
         return binding.root
     }
@@ -59,9 +55,15 @@ class HomeFragment : Fragment() {
 
         val adapter = weatherResponse?.let { weatherRes ->
             WeatherDataAdapter(weatherRes) {position ->
-                findNavController().navigate(
-                   HomeFragmentDirections.actionHomeFragmentToDeatilFragment(weatherRes, position)
-                )
+                val time = weatherRes.daily?.time?.get(position) ?: ""
+
+                val maxTemp: Float  = weatherRes.daily?.apparentTemperatureMax?.get(position)?.toFloat() ?: 0.0F
+
+                val iconValue = weatherRes.icons[position]
+
+               findNavController().navigate(
+                   HomeFragmentDirections.actionHomeFragmentToDeatilFragment(time, maxTemp, iconValue)
+               )
             }
         }
 
