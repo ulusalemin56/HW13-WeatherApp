@@ -7,7 +7,7 @@ import com.example.hw13_weatherapp.model.WeatherResponse
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -16,7 +16,7 @@ import retrofit2.http.Query
 interface WeatherApiService {
 
     @GET("v1/forecast")
-    fun getWeatherResult(
+    suspend fun getWeatherResult(
         @Query("latitude") latitude: Double = 40.7750,
         @Query("longitude") longitude: Double = 29.9480,
         @Query("current_weather") current_weather: Boolean = true,
@@ -24,7 +24,7 @@ interface WeatherApiService {
         @Query("daily") daily: String = "weathercode,apparent_temperature_max,apparent_temperature_min",
         @Query("temperature_unit") temperatureUnit: String = "celsius",
         @Query("forecast_days") forecastDays: Int = 14
-    ): Call<WeatherResponse>
+    ): Response<WeatherResponse>
 
     companion object {
 

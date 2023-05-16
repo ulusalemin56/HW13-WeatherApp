@@ -13,6 +13,7 @@ import com.example.hw13_weatherapp.util.DataBaseConverter
 @Database(
     entities = [WeatherResponse::class, CurrentWeather::class, Daily::class],
     version = 1,
+    exportSchema = false
 )
 @TypeConverters(DataBaseConverter::class)
 abstract class WeatherDB : RoomDatabase() {

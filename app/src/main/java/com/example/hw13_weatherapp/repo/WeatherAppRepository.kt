@@ -7,43 +7,56 @@ import com.example.hw13_weatherapp.model.Daily
 import com.example.hw13_weatherapp.model.WeatherResponse
 import com.example.hw13_weatherapp.network.WeatherApiService
 import com.example.hw13_weatherapp.util.Consts
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.lang.Exception
 import java.util.Date
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 class WeatherAppRepository(
     private val weatherApiService: WeatherApiService,
     weatherDB: WeatherDB,
-    private val isInternetAvailable : Boolean
+    private val isInternetAvailable: Boolean
 ) {
-
-    private val executor: ExecutorService = Executors.newSingleThreadExecutor()
 
     private val weatherDao = weatherDB.weatherDao()
 
-    fun fetchWeatherData (callBack : (WeatherResponse) -> Unit) {
+    suspend fun fetchWeatherData() : WeatherResponse {
 
-        if (isInternetAvailable) {
-
-            fetchFromService(callBack)
-
+       return if (isInternetAvailable) {
+            fetchFromService()
         } else {
-
-            fetchFromDataBase {weatherResponse ->
-                callBack(weatherResponse)
-            }
-
+            fetchFromDataBase()
         }
 
     }
 
-    private fun fetchFromService(callBack: (WeatherResponse) -> Unit) {
+    private suspend fun fetchFromService() : WeatherResponse {
+       val weatherResponse = withContext(Dispatchers.IO) {
+            val response = weatherApiService.getWeatherResult().body()
 
-        weatherApiService.getWeatherResult().enqueue(object : Callback<WeatherResponse> {
+            weatherDao.deleteAll()
+            response?.let {
+
+                // Iconlar hava durumuna göre dinamikleştirildi
+                setIcons(it)
+
+                // Api dan gelen tarih daha düzenli bir tarih gösterimi ile değiştirildi.
+                setDates(it.daily)
+
+
+                insertWeatherToDataBase(it)
+            }
+
+           return@withContext response
+        }
+
+        if (weatherResponse != null) {
+           return weatherResponse
+        }
+
+        return fetchFromDataBase()
+
+        /*weatherApiService.getWeatherResult().enqueue(object : Callback<WeatherResponse> {
             override fun onResponse(
                 call: Call<WeatherResponse>,
                 response: Response<WeatherResponse>
@@ -80,27 +93,26 @@ class WeatherAppRepository(
 
             }
 
-
         })
-
+*/
     }
 
-    private fun fetchFromDataBase(callBack: (WeatherResponse) -> Unit) {
-        executor.execute{
-            val weatherResponse = weatherDao.getAll()
-            callBack(weatherResponse)
+    private suspend fun fetchFromDataBase(): WeatherResponse {
+
+        val weatherResponse = withContext(Dispatchers.IO) {
+            weatherDao.getAll()
         }
+
+        return weatherResponse
     }
 
-    private fun insertWeatherToDataBase(weatherData : WeatherResponse) {
+    private suspend fun insertWeatherToDataBase(weatherData: WeatherResponse) {
 
-        executor.execute {
-            try {
-                weatherDao.deleteAll()
-                weatherDao.insertAll(weatherData)
-            } catch (e : Exception) {
-                e.printStackTrace()
-            }
+        try {
+            weatherDao.deleteAll()
+            weatherDao.insertAll(weatherData)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
 
     }
