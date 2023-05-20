@@ -5,23 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.hw13_weatherapp.R
 import com.example.hw13_weatherapp.data.local.WeatherDB
 import com.example.hw13_weatherapp.databinding.FragmentHomeBinding
 import com.example.hw13_weatherapp.model.WeatherResponse
 import com.example.hw13_weatherapp.network.WeatherApiService
 import com.example.hw13_weatherapp.repo.WeatherAppRepository
-import com.example.hw13_weatherapp.util.Consts.CHANNEL_ID
 import com.example.hw13_weatherapp.util.NetworkUtil
+import com.example.hw13_weatherapp.util.sendNotifications
 
 class HomeFragment : Fragment() {
 
-    private lateinit var binding : FragmentHomeBinding
+    private lateinit var binding: FragmentHomeBinding
 
-    private lateinit var viewModel : HomeViewModel
+    private lateinit var viewModel: HomeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,38 +47,41 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    private fun initObserve(){
-        viewModel.weatherData.observe(viewLifecycleOwner){
+    private fun initObserve() {
+        viewModel.weatherData.observe(viewLifecycleOwner) {
             initRecyclerView(it)
+            NotificationManagerCompat
+                .from(requireContext())
+                .sendNotifications(
+                    "Current Weather",
+                    it?.currentWeather?.temperature.toString(),
+                    requireContext()
+                )
         }
     }
 
-    private fun initRecyclerView(weatherResponse : WeatherResponse?) {
+    private fun initRecyclerView(weatherResponse: WeatherResponse?) {
 
         val adapter = weatherResponse?.let { weatherRes ->
-            WeatherDataAdapter(weatherRes) {position ->
+            WeatherDataAdapter(weatherRes) { position ->
                 val time = weatherRes.daily?.time?.get(position) ?: ""
 
-                val maxTemp: Float  = weatherRes.daily?.apparentTemperatureMax?.get(position)?.toFloat() ?: 0.0F
+                val maxTemp: Float =
+                    weatherRes.daily?.apparentTemperatureMax?.get(position)?.toFloat() ?: 0.0F
 
                 val iconValue = weatherRes.icons[position]
 
-               findNavController().navigate(
-                   HomeFragmentDirections.actionHomeFragmentToDeatilFragment(time, maxTemp, iconValue)
-               )
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToDeatilFragment(
+                        time,
+                        maxTemp,
+                        iconValue
+                    )
+                )
             }
         }
 
         binding.recyclerView.adapter = adapter
-    }
-
-    private fun sendNotifications(title: String, description: String) {
-        var builder = NotificationCompat.Builder(requireContext(), CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle(title)
-            .setContentText(description)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .build()
     }
 
 }

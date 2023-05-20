@@ -16,11 +16,9 @@ class HomeViewModel(
     private val _weatherData = MutableLiveData<WeatherResponse?>()
     val weatherData: LiveData<WeatherResponse?> = _weatherData
 
-
     fun fetchData() {
         viewModelScope.launch {
             _weatherData.value = weatherAppRepository.fetchWeatherData()
         }
-
     }
 }
