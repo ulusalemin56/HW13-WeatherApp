@@ -5,13 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.hw13_weatherapp.R
 import com.example.hw13_weatherapp.data.local.WeatherDB
 import com.example.hw13_weatherapp.databinding.FragmentHomeBinding
 import com.example.hw13_weatherapp.model.WeatherResponse
 import com.example.hw13_weatherapp.network.WeatherApiService
 import com.example.hw13_weatherapp.repo.WeatherAppRepository
+import com.example.hw13_weatherapp.util.Consts.CHANNEL_ID
 import com.example.hw13_weatherapp.util.NetworkUtil
 
 class HomeFragment : Fragment() {
@@ -69,4 +72,14 @@ class HomeFragment : Fragment() {
 
         binding.recyclerView.adapter = adapter
     }
+
+    private fun sendNotifications(title: String, description: String) {
+        var builder = NotificationCompat.Builder(requireContext(), CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentTitle(title)
+            .setContentText(description)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
+    }
+
 }

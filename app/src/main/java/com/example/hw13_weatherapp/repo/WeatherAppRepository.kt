@@ -47,14 +47,10 @@ class WeatherAppRepository(
                 insertWeatherToDataBase(it)
             }
 
-           return@withContext response
+           response
         }
 
-        if (weatherResponse != null) {
-           return weatherResponse
-        }
-
-        return fetchFromDataBase()
+        return weatherResponse ?: fetchFromDataBase()
 
         /*weatherApiService.getWeatherResult().enqueue(object : Callback<WeatherResponse> {
             override fun onResponse(
