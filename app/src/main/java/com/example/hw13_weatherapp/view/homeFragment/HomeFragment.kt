@@ -28,19 +28,16 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater)
 
-        val weatherApiService = WeatherApiService.create(requireContext())
-        val weatherDB = WeatherDB.getInstance(requireContext())
-        val hasInternet = NetworkUtil.isInternetAvailable(requireContext())
-        val weatherAppRepository = WeatherAppRepository(weatherApiService, weatherDB, hasInternet)
+        val weatherAppRepository = WeatherAppRepository(
+            WeatherApiService.create(requireContext()),
+            WeatherDB.getInstance(requireContext()),
+            NetworkUtil.isInternetAvailable(requireContext())
+        )
 
         viewModel = ViewModelProvider(
             requireActivity(),
             HomeViewModelFactory(weatherAppRepository),
         )[HomeViewModel::class.java]
-
-        if (viewModel.weatherData.value == null) {
-            viewModel.fetchData()
-        }
 
         initObserve()
 
