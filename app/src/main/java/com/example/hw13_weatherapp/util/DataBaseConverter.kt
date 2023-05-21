@@ -36,7 +36,7 @@ class DataBaseConverter {
     }
 
     @TypeConverter
-    fun fromListInt(list: List<Int?>): String {
+    fun fromListInt(list: List<Int?>?): String {
         return gson.toJson(list)
     }
 

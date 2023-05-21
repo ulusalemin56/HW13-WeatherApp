@@ -14,15 +14,15 @@ import com.example.hw13_weatherapp.databinding.NextDaysItemBinding
 import com.example.hw13_weatherapp.model.WeatherResponse
 
 class WeatherDataAdapter(
-    private val weatherResponse: WeatherResponse,
-    private val weatherItemClickListener : (Int) -> Unit
+    weatherResponse: WeatherResponse,
+    private val weatherItemClickListener: (Int) -> Unit
 ) : Adapter<WeatherDataAdapter.WeatherDataViewHolder>() {
 
     private val currentWeather = weatherResponse.currentWeather
     private val times = weatherResponse.daily?.time
     private val maxTemps = weatherResponse.daily?.apparentTemperatureMax
     private val minTemps = weatherResponse.daily?.apparentTemperatureMin
-    private val icons = weatherResponse.icons
+    private val icons = weatherResponse.daily?.weathercode
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -47,12 +47,14 @@ class WeatherDataAdapter(
     }
 
     override fun onBindViewHolder(holder: WeatherDataAdapter.WeatherDataViewHolder, position: Int) {
+
         holder.bind(
             time = times?.get(position),
             maxTemp = maxTemps?.get(position),
             minTemp = minTemps?.get(position),
-            icon = icons[position]
+            icon = icons?.get(position)
         )
+
     }
 
     override fun getItemCount(): Int {
@@ -72,7 +74,7 @@ class WeatherDataAdapter(
             time: String?,
             maxTemp: Double?,
             minTemp: Double?,
-            icon: Int
+            icon: Int?
         ) {
 
             if (adapterPosition == Consts.VIEW_TYPE_CURRENT_DAY) {
@@ -83,7 +85,8 @@ class WeatherDataAdapter(
                     tvTemperature.text = currentWeather?.temperature?.toString()?.addCelcius()
                     tvWindSpeed.text = currentWeather?.windspeed?.toString()?.addSpeedText()
                     tvWindDirection.text = currentWeather?.winddirection?.toString()
-                    ivWeatherIcon.setImageResource(icon)
+
+
                 }
 
             } else {
@@ -93,7 +96,10 @@ class WeatherDataAdapter(
                     tvDate.text = time
                     tvMinTemp.text = minTemp.toString().addCelcius()
                     tvMaxTemp.text = maxTemp.toString().addCelcius()
-                    ivWeatherIcon.setImageResource(icon)
+
+                    icon?.let {
+                        ivWeatherIcon.setImageResource(it)
+                    }
 
                     cardViewNextDay.setOnClickListener {
                         weatherItemClickListener(adapterPosition)

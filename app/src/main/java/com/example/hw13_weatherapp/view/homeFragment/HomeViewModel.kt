@@ -51,11 +51,11 @@ class HomeViewModel(
             }
         }
 
-        weatherResponse.icons = icons
+        weatherResponse.daily?.weathercode = icons
 
     }
 
-    fun setDates(daily: Daily?) {
+    private fun setDates(daily: Daily?) {
 
         val dt = Date()
         val calendar = Calendar.getInstance()

@@ -23,5 +23,5 @@ data class Daily(
     val time: List<String?>?,
 
     @SerializedName("weathercode")
-    val weathercode: List<Int?>?
+    var weathercode: List<Int?>?
 ) : Parcelable

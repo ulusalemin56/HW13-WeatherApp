@@ -66,7 +66,7 @@ class HomeFragment : Fragment() {
                 val maxTemp: Float =
                     weatherRes.daily?.apparentTemperatureMax?.get(position)?.toFloat() ?: 0.0F
 
-                val iconValue = weatherRes.icons[position]
+                val iconValue = weatherRes.daily?.weathercode?.get(position) ?: -1
 
                 findNavController().navigate(
                     HomeFragmentDirections.actionHomeFragmentToDeatilFragment(

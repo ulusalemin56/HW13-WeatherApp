@@ -22,5 +22,5 @@ data class WeatherResponse(
     @Embedded
     val daily: Daily?,
 
-    var icons : List<Int>,
+//    var icons : List<Int>,
 ) : Parcelable
