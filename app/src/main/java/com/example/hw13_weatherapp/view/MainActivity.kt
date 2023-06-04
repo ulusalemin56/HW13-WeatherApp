@@ -11,7 +11,9 @@ import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import com.example.hw13_weatherapp.R
 import com.example.hw13_weatherapp.util.Consts.CHANNEL_ID
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

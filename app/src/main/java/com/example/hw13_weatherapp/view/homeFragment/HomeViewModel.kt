@@ -10,18 +10,19 @@ import com.example.hw13_weatherapp.model.Daily
 import com.example.hw13_weatherapp.model.WeatherResponse
 import com.example.hw13_weatherapp.repo.WeatherAppRepository
 import com.example.hw13_weatherapp.util.Consts
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import java.util.Date
+import javax.inject.Inject
 
-
-class HomeViewModel(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     weatherAppRepository: WeatherAppRepository
 ) : ViewModel() {
 
     val weatherData: LiveData<WeatherResponse> = weatherAppRepository
         .fetchWeatherData()
         .map {weatherResponse ->
-
             // Iconlar hava durumuna göre dinamikleştirildi
             setIcons(weatherResponse)
 

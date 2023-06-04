@@ -6,38 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.NotificationManagerCompat
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.hw13_weatherapp.data.local.WeatherDB
 import com.example.hw13_weatherapp.databinding.FragmentHomeBinding
 import com.example.hw13_weatherapp.model.WeatherResponse
-import com.example.hw13_weatherapp.network.WeatherApiService
-import com.example.hw13_weatherapp.repo.WeatherAppRepository
-import com.example.hw13_weatherapp.util.NetworkUtil
 import com.example.hw13_weatherapp.util.sendNotifications
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
 
-    private lateinit var viewModel: HomeViewModel
+    //private lateinit var viewModel: HomeViewModel
 
+    private val viewModel by viewModels<HomeViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater)
-
-        val weatherAppRepository = WeatherAppRepository(
-            WeatherApiService.create(requireContext()),
-            WeatherDB.getInstance(requireContext()),
-            NetworkUtil.isInternetAvailable(requireContext())
-        )
-
-        viewModel = ViewModelProvider(
-            requireActivity(),
-            HomeViewModelFactory(weatherAppRepository),
-        )[HomeViewModel::class.java]
 
         initObserve()
 
