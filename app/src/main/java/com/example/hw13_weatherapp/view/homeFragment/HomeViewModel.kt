@@ -4,34 +4,50 @@ package com.example.hw13_weatherapp.view.homeFragment
 import android.icu.text.DateFormat
 import android.icu.util.Calendar
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.hw13_weatherapp.model.Daily
 import com.example.hw13_weatherapp.model.WeatherResponse
 import com.example.hw13_weatherapp.repo.WeatherAppRepository
 import com.example.hw13_weatherapp.util.Consts
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    weatherAppRepository: WeatherAppRepository
+    private val weatherAppRepository: WeatherAppRepository
 ) : ViewModel() {
 
-    val weatherData: LiveData<WeatherResponse> = weatherAppRepository
-        .fetchWeatherData()
-        .map {weatherResponse ->
-            // Iconlar hava durumuna göre dinamikleştirildi
-            setIcons(weatherResponse)
+    private val _weatherData = MutableLiveData<WeatherResponse>()
+    val weatherData: LiveData<WeatherResponse>
+        get() = _weatherData
 
-            // Api dan gelen tarih daha düzenli bir tarih gösterimi ile değiştirildi.
-            setDates(weatherResponse.daily)
 
-            weatherResponse
+    fun getCurrentLocationData(lat: Double, longt: Double) {
+        initLogicData(lat, longt)
+    }
+
+    fun initLogicData(lat: Double = 38.4127, longt: Double = 27.1384) {
+        viewModelScope.launch {
+            weatherAppRepository.fetchWeatherData(lat, longt)
+                .map { weatherResponse ->
+                    // Iconlar hava durumuna göre dinamikleştirildi
+                    setIcons(weatherResponse)
+
+                    // Api dan gelen tarih daha düzenli bir tarih gösterimi ile değiştirildi.
+                    setDates(weatherResponse.daily)
+
+                    weatherResponse
+                }.collect { weatherResponse ->
+                    _weatherData.value = weatherResponse
+                }
+
         }
-        .asLiveData()
+    }
 
     private fun setIcons(weatherResponse: WeatherResponse) {
         val weatherCodes = weatherResponse.daily?.weathercode

@@ -7,8 +7,8 @@ class RemoteDataSource (
     private val weatherApiService: WeatherApiService
 ) {
 
-    suspend fun getFromApiService() : WeatherResponse {
-        return weatherApiService.getWeatherResult()
+    suspend fun getFromApiService(lat: Double, longt : Double) : WeatherResponse {
+        return weatherApiService.getWeatherResult(latitude = lat, longitude = longt)
     }
 
 }

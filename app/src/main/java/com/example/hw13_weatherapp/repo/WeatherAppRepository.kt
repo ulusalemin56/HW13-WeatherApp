@@ -14,11 +14,11 @@ class WeatherAppRepository(
     private val isInternetAvailable: Boolean
 ) {
 
-    fun fetchWeatherData() : Flow<WeatherResponse> {
+    fun fetchWeatherData(lat: Double, longt : Double) : Flow<WeatherResponse> {
          return flow {
             if (isInternetAvailable) {
 
-                val weatherResponse = remoteDataSource.getFromApiService()
+                val weatherResponse = remoteDataSource.getFromApiService(lat, longt)
 
                 localDataSource.insertWeatherToDataBase(weatherResponse)
 

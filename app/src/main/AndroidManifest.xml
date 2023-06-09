@@ -2,9 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Internete bağlanma isteği -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Internet durumunu sorgulama isteği -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- Bildirim gönderme isteği -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <!-- Konum alma isteği -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
 
     <application
         android:name=".WeatherApplication"
