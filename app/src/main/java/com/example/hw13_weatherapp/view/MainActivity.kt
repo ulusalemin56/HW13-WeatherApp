@@ -18,11 +18,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         askNotificationPermission()
         createNotificationChannel()
 
         setContentView(R.layout.activity_main)
     }
+
 
     private fun askNotificationPermission() {
         // This is only necessary for API level >= 33 (TIRAMISU)
