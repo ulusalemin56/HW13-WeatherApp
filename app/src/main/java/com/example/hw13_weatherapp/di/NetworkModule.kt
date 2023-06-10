@@ -1,7 +1,7 @@
 package com.example.hw13_weatherapp.di
 
 import android.content.Context
-import com.example.hw13_weatherapp.network.MyCustomerInterCeptor
+import com.example.hw13_weatherapp.data.network.MyCustomerInterCeptor
 import com.example.hw13_weatherapp.util.Consts
 import dagger.Module
 import dagger.Provides

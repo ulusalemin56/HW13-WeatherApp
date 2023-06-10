@@ -1,7 +1,7 @@
-package com.example.hw13_weatherapp.repo
+package com.example.hw13_weatherapp.data.repo
 
 import com.example.hw13_weatherapp.data.local.WeatherDao
-import com.example.hw13_weatherapp.model.WeatherResponse
+import com.example.hw13_weatherapp.data.model.WeatherResponse
 import java.lang.Exception
 
 

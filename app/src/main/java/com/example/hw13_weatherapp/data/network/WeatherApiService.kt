@@ -1,7 +1,7 @@
-package com.example.hw13_weatherapp.network
+package com.example.hw13_weatherapp.data.network
 
 
-import com.example.hw13_weatherapp.model.WeatherResponse
+import com.example.hw13_weatherapp.data.model.WeatherResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

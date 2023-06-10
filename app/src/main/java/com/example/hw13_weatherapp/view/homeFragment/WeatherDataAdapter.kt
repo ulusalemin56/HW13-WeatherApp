@@ -11,7 +11,7 @@ import com.example.hw13_weatherapp.util.addCelcius
 import com.example.hw13_weatherapp.util.addSpeedText
 import com.example.hw13_weatherapp.databinding.CurrentDayItemBinding
 import com.example.hw13_weatherapp.databinding.NextDaysItemBinding
-import com.example.hw13_weatherapp.model.WeatherResponse
+import com.example.hw13_weatherapp.data.model.WeatherResponse
 
 class WeatherDataAdapter(
     weatherResponse: WeatherResponse,

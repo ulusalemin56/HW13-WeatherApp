@@ -1,4 +1,4 @@
-package com.example.hw13_weatherapp.network
+package com.example.hw13_weatherapp.data.network
 
 import okhttp3.Interceptor
 import okhttp3.Response

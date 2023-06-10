@@ -20,7 +20,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.hw13_weatherapp.databinding.FragmentHomeBinding
-import com.example.hw13_weatherapp.model.WeatherResponse
+import com.example.hw13_weatherapp.data.model.WeatherResponse
 import com.example.hw13_weatherapp.util.sendNotifications
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices

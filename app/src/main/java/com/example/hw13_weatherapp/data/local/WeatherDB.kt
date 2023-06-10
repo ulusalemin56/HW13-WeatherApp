@@ -3,9 +3,9 @@ package com.example.hw13_weatherapp.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.hw13_weatherapp.model.CurrentWeather
-import com.example.hw13_weatherapp.model.Daily
-import com.example.hw13_weatherapp.model.WeatherResponse
+import com.example.hw13_weatherapp.data.model.CurrentWeather
+import com.example.hw13_weatherapp.data.model.Daily
+import com.example.hw13_weatherapp.data.model.WeatherResponse
 import com.example.hw13_weatherapp.util.DataBaseConverter
 
 @Database(

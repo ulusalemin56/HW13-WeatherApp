@@ -7,9 +7,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hw13_weatherapp.model.Daily
-import com.example.hw13_weatherapp.model.WeatherResponse
-import com.example.hw13_weatherapp.repo.WeatherAppRepository
+import com.example.hw13_weatherapp.data.model.Daily
+import com.example.hw13_weatherapp.data.model.WeatherResponse
+import com.example.hw13_weatherapp.data.repo.WeatherAppRepository
 import com.example.hw13_weatherapp.util.Consts
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map

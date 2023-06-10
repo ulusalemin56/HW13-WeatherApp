@@ -3,10 +3,10 @@ package com.example.hw13_weatherapp.view.homeFragment
 import android.content.Context
 import com.example.hw13_weatherapp.data.local.WeatherDB
 import com.example.hw13_weatherapp.data.local.WeatherDao
-import com.example.hw13_weatherapp.network.WeatherApiService
-import com.example.hw13_weatherapp.repo.LocalDataSource
-import com.example.hw13_weatherapp.repo.RemoteDataSource
-import com.example.hw13_weatherapp.repo.WeatherAppRepository
+import com.example.hw13_weatherapp.data.network.WeatherApiService
+import com.example.hw13_weatherapp.data.repo.LocalDataSource
+import com.example.hw13_weatherapp.data.repo.RemoteDataSource
+import com.example.hw13_weatherapp.data.repo.WeatherAppRepository
 import com.example.hw13_weatherapp.util.NetworkUtil
 import dagger.Module
 import dagger.Provides

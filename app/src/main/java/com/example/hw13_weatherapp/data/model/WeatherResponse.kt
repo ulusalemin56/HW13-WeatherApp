@@ -1,4 +1,4 @@
-package com.example.hw13_weatherapp.model
+package com.example.hw13_weatherapp.data.model
 
 
 import android.os.Parcelable
